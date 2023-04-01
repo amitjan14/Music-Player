@@ -6,14 +6,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
-import model.Model_Menu;
 import model.Model_Music;
 
 
 public class ItemMusic extends javax.swing.JPanel {
 
     private final Model_Music data;
+    Bottom bottom = new Bottom();
     boolean play;
+    String file;
     public void setPlay(boolean play){
     this.play = play;
     if(play){
@@ -23,6 +24,7 @@ public class ItemMusic extends javax.swing.JPanel {
         lbText.setForeground(new Color(27, 74, 233 ));
         lbTime.setFont(new java.awt.Font("sansserif",1, 14));
         lbTime.setForeground(new Color(27, 74, 233 ));
+        bottom.file(data.getName());
     }
     else{
         lbIcon.setIcon(null);
@@ -31,8 +33,10 @@ public class ItemMusic extends javax.swing.JPanel {
         lbText.setForeground(new Color(51, 51, 51 ));
         lbTime.setFont(new java.awt.Font("sansserif",0, 14));
         lbTime.setForeground(new Color(51, 51, 51 ));
+        
     }
     }
+    
     
     public ItemMusic(Model_Music data) {
         this.data=data;

@@ -14,20 +14,23 @@ public class Music extends javax.swing.JPanel {
 
     private void init(){
         list.addItem(new Model_Music("1", "Peace Of Mind (feat. Vargas & Lagola)", "03:00"));
-        list.addItem(new Model_Music("2", "Heaven", "04:37"));
-        list.addItem(new Model_Music("3", "SOS (feat. Aloe Blacc)", "02:37"));
-        list.addItem(new Model_Music("4", "Bad Reputation (feat. Joe Janiak)", "03:25"));
-        list.addItem(new Model_Music("5", "Ain't A Thing", "03:03"));
-        list.addItem(new Model_Music("6", "Hold The line (feat. A R I Z O N A)", "02:51"));
+        list.addItem(new Model_Music("2", "Heaven", "04:38"));
+        list.addItem(new Model_Music("3", "SOS (feat. Aloe Blacc)", "02:36"));
+        list.addItem(new Model_Music("4", "Bad Reputation (feat. Joe Janiak)", "03:26"));
+        list.addItem(new Model_Music("5", "Ain't A Thing", "03:02"));
+        list.addItem(new Model_Music("6", "Hold The line (feat. A R I Z O N A)", "02:52"));
         list.addItem(new Model_Music("7", "Freak (feat. Bonn)", "02:59"));
-        list.addItem(new Model_Music("8", "Excuse me Mr Sir (feat. Vargas & Lagola)", "03:07"));
-        list.addItem(new Model_Music("9", "Heart Upon My Sleeve (feat. Imagine Dragons)", "04:14"));
-        list.addItem(new Model_Music("10", "Never Leave Me (feat. Joe Janiak)", "02:51"));
-        list.addItem(new Model_Music("11", "Fades Away (feat. Noonie Bao)", "02:58"));
-        list.addItem(new Model_Music("12", "Wake Me Up", "04:07"));
-        list.addItem(new Model_Music("13", "You Make Me", "03:53"));
-        list.addItem(new Model_Music("14", "Hey Brother", "04:15"));
-        list.addItem(new Model_Music("15", "Addicted To You", "02:28"));
+        list.addItem(new Model_Music("8", "Excuse me Mr Sir (feat. Vargas & Lagola)", "03:08"));
+        list.addItem(new Model_Music("9", "Heart Upon My Sleeve (feat. Imagine Dragons)", "04:15"));
+        list.addItem(new Model_Music("10", "Never Leave Me (feat. Joe Janiak)", "02:52"));
+        list.addItem(new Model_Music("11", "Fades Away (feat. Noonie Bao)", "03:00"));
+        list.addItem(new Model_Music("12", "Wake Me Up", "04:11"));
+        list.addItem(new Model_Music("13", "You Make Me", "03:59"));
+        list.addItem(new Model_Music("14", "Hey Brother", "04:19"));
+        list.addItem(new Model_Music("15", "Addicted To You", "03:23"));
+        list.addItem(new Model_Music("16", "Dont Give Up On Me", "03:16"));
+        list.addItem(new Model_Music("17", "Zara Zara Bahekta Hai", "03:26"));
+        list.addItem(new Model_Music("18", "My Universe", "03:48"));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

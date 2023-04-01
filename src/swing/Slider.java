@@ -35,4 +35,8 @@ public class Slider extends JSlider {
        }
    });
    }
+
+    public void setProgress(double d) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
    }
