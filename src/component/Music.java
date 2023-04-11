@@ -2,10 +2,12 @@
 package component;
 
 import model.Model_Music;
-
+import component.Bottom;
 
 public class Music extends javax.swing.JPanel {
-
+    Bottom bottom = new Bottom();
+    Model_Music data = new Model_Music();
+    String name;
     
     public Music() {
         initComponents();
@@ -31,6 +33,7 @@ public class Music extends javax.swing.JPanel {
         list.addItem(new Model_Music("16", "Dont Give Up On Me", "03:16"));
         list.addItem(new Model_Music("17", "Zara Zara Bahekta Hai", "03:26"));
         list.addItem(new Model_Music("18", "My Universe", "03:48"));
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -44,6 +47,12 @@ public class Music extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Most Trending Music");
+
+        list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,6 +75,10 @@ public class Music extends javax.swing.JPanel {
                 .addComponent(list, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listMouseClicked
+       // TODO add your handling code here:
+    }//GEN-LAST:event_listMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

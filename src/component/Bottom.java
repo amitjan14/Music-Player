@@ -1,4 +1,3 @@
-
 package component;
 
 import javax.swing.*;
@@ -6,17 +5,18 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 import javax.sound.sampled.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import model.Model_Music;
 
 public class Bottom extends javax.swing.JPanel {
-    Model_Music data = new Model_Music();
-
+    private java.util.List<String> songList;
+    private int currentSongIndex;
     JTextField filePathField;
     private boolean isPaused;
+    private boolean isStopped;
     private boolean isLooping = false;
-    private boolean running = false;
+    private boolean selected=true;
     private JFileChooser fileChooser;
     private Clip clip;
     private AudioInputStream audioStream;
@@ -42,10 +42,12 @@ public class Bottom extends javax.swing.JPanel {
                 timeend.setText(totalTime);
                 if (!duration.getValueIsAdjusting()) {
                     duration.setValue((int) (100 * currentFrame / audioLength));
-                }
+                  }
+                
             }
         });  
-         
+        songList = new ArrayList<String>();
+        currentSongIndex = 0; 
         setOpaque(false);
         setBackground(new Color(68,68,68));
         init();
@@ -68,30 +70,33 @@ public class Bottom extends javax.swing.JPanel {
         });  
     
         }
-    
+       public void addSong(String filePath) {
+        songList.add(filePath);
+       }
         void file(String name){
+            stopMusic();
             System.out.println(name);
-            filePathField.setText("C:\\Users\\amit_\\Documents\\NetBeans Project\\Music\\src\\Songs\\"+name+".wav");
-            filename.setText(name);
+            songList.add("C:/Users/amit_/Documents/NetBeans Project/Music/src/Songs/"+name+".wav");
             playMusic();
         
         }
       
         void stopMusic(){
+            if(clip!=null){
+            clip.stop();
+            isStopped=true;
+            clip.setFramePosition(0);
+            Pause.setIcon(new ImageIcon(getClass().getResource("/icon/playing.png")));        
+        }}
+        void playMusic() {
         if (clip != null && clip.isRunning()) 
         {
-            clip.stop();
-            clip.setFramePosition(0);
-
-        }
-        }
-        void playMusic() {
-        
-        stopMusic();
-        
+        stopMusic();}
+        if (songList.size() > 0) {
+            String filePath = songList.get(currentSongIndex);
         try 
         {
-            File file = new File(filePathField.getText());
+            File file = new File(filePath);
             audioStream = AudioSystem.getAudioInputStream(file);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
@@ -105,6 +110,7 @@ public class Bottom extends javax.swing.JPanel {
             
             clip.start();
             timer.start();
+            filename.setText(file.getName());
 
             
 	    
@@ -114,21 +120,23 @@ public class Bottom extends javax.swing.JPanel {
         {
             System.out.println(e);
         }
-        
+        } 
     }
-    private void pauseMusic() 
+     void pauseMusic() 
     {
         if(clip==null){playMusic();}
         if (clip != null && clip.isRunning()) 
         {
             clip.stop();
             isPaused = true;
-            
+            Pause.setIcon(new ImageIcon(getClass().getResource("/icon/playing.png")));
+
         } 
         else if (clip != null && isPaused) 
         {
             clip.start();
-            
+            Pause.setIcon(new ImageIcon(getClass().getResource("/icon/pause.png")));
+
             if(isLooping)
             {
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -137,6 +145,12 @@ public class Bottom extends javax.swing.JPanel {
             isPaused = false;
             
         }
+        if(clip!=null && isStopped){
+            playMusic();
+            Pause.setIcon(new ImageIcon(getClass().getResource("/icon/pause.png")));
+            isStopped = false;}
+        
+        
     }
     
     private void chooseFile() 
@@ -147,9 +161,8 @@ public class Bottom extends javax.swing.JPanel {
         {
             File selectedFile = fileChooser.getSelectedFile();
           filePathField.setText(selectedFile.getAbsolutePath());
-            filename.setText(selectedFile.getName());
+          addSong(filePathField.getText());
         }
-        playMusic();
     }
     
     private void toggleLoop() 
@@ -157,16 +170,16 @@ public class Bottom extends javax.swing.JPanel {
         isLooping = !isLooping;
         if (isLooping) 
         {
-            Loop.setIcon(new ImageIcon(getClass().getResource("/icon/repeat.png")));
-            
+            Loop.setIcon(new ImageIcon(getClass().getResource("/icon/loop.png")));
+                
             if(clip.isRunning())
             {
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } 
+                } 
         }
         else 
         {
-            Loop.setIcon(new ImageIcon(getClass().getResource("/icon/loop.png"))); 
+            Loop.setIcon(new ImageIcon(getClass().getResource("/icon/repeat.png"))); 
             if(clip.isRunning())
             {
                 clip.loop(0);
@@ -200,8 +213,41 @@ public class Bottom extends javax.swing.JPanel {
        Speaker.setIcon(new ImageIcon(getClass().getResource("/icon/speaker.png")));}
     
     }
-  private void nextMusic(){}
+       private void nextMusic() {
+        stopMusic();
+        if (currentSongIndex < songList.size() - 1) {
+            currentSongIndex++;
+        } else {
+            currentSongIndex = 0;
+        }
+        Pause.setIcon(new ImageIcon(getClass().getResource("/icon/pause.png")));
+        pauseMusic();
+        
+    }
+    
+    private void previousMusic() {
+        stopMusic();
+        if (currentSongIndex > 0) {
+            currentSongIndex--;
+        } else {
+            currentSongIndex = songList.size() - 1;
+        }
+        Pause.setIcon(new ImageIcon(getClass().getResource("/icon/pause.png")));
+        pauseMusic();
+    }
+    
+    void fav(){
+    if(selected){        
+        Favourite.setIcon(new ImageIcon(getClass().getResource("/icon/heart_selected.png")));
+        selected=false;
+}
+    
+    else{ 
+        Favourite.setIcon(new ImageIcon(getClass().getResource("/icon/heart.png")));
+        selected=true;
 
+}
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -213,7 +259,7 @@ public class Bottom extends javax.swing.JPanel {
         Loop = new javax.swing.JButton();
         timeend = new javax.swing.JLabel();
         Browse = new javax.swing.JButton();
-        Play = new javax.swing.JButton();
+        Stop = new javax.swing.JButton();
         Back = new javax.swing.JButton();
         Pause = new javax.swing.JButton();
         Next = new javax.swing.JButton();
@@ -223,7 +269,7 @@ public class Bottom extends javax.swing.JPanel {
         volume.setMaximum(200);
         volume.setValue(60);
 
-        timestart.setForeground(new java.awt.Color(255, 255, 255));
+        timestart.setForeground(new java.awt.Color(204, 204, 204));
         timestart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         timestart.setText("00:00");
 
@@ -237,7 +283,7 @@ public class Bottom extends javax.swing.JPanel {
             }
         });
 
-        Favourite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/love_bot.png"))); // NOI18N
+        Favourite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/heart.png"))); // NOI18N
         Favourite.setBorder(null);
         Favourite.setContentAreaFilled(false);
         Favourite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -257,12 +303,12 @@ public class Bottom extends javax.swing.JPanel {
             }
         });
 
-        timeend.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        timeend.setForeground(new java.awt.Color(255, 255, 255));
+        timeend.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        timeend.setForeground(new java.awt.Color(204, 204, 204));
         timeend.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        timeend.setText("03:00");
+        timeend.setText("00:00");
 
-        Browse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/browse_selected.png"))); // NOI18N
+        Browse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/browse_file.png"))); // NOI18N
         Browse.setBorder(null);
         Browse.setContentAreaFilled(false);
         Browse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -272,13 +318,13 @@ public class Bottom extends javax.swing.JPanel {
             }
         });
 
-        Play.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/play.png"))); // NOI18N
-        Play.setBorder(null);
-        Play.setContentAreaFilled(false);
-        Play.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Play.addActionListener(new java.awt.event.ActionListener() {
+        Stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/stop.png"))); // NOI18N
+        Stop.setBorder(null);
+        Stop.setContentAreaFilled(false);
+        Stop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Stop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PlayActionPerformed(evt);
+                StopActionPerformed(evt);
             }
         });
 
@@ -313,7 +359,7 @@ public class Bottom extends javax.swing.JPanel {
         });
 
         filename.setFont(new java.awt.Font("Bahnschrift", 0, 14)); // NOI18N
-        filename.setForeground(new java.awt.Color(255, 255, 255));
+        filename.setForeground(new java.awt.Color(204, 204, 204));
         filename.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         filename.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -333,7 +379,7 @@ public class Bottom extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Play, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Stop, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(Browse, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
@@ -361,7 +407,7 @@ public class Bottom extends javax.swing.JPanel {
                     .addComponent(duration, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Play, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Stop, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Favourite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Loop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Speaker, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
@@ -379,23 +425,23 @@ public class Bottom extends javax.swing.JPanel {
     }//GEN-LAST:event_SpeakerActionPerformed
 
     private void FavouriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavouriteActionPerformed
-                  // TODO add your handling code here:
+        fav();// TODO add your handling code here:
     }//GEN-LAST:event_FavouriteActionPerformed
 
     private void LoopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoopActionPerformed
-       toggleLoop();
+        toggleLoop();
     }//GEN-LAST:event_LoopActionPerformed
 
     private void BrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseActionPerformed
         chooseFile();
     }//GEN-LAST:event_BrowseActionPerformed
 
-    private void PlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayActionPerformed
+    private void StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopActionPerformed
         stopMusic();
-    }//GEN-LAST:event_PlayActionPerformed
+    }//GEN-LAST:event_StopActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-       // TODO add your handling code here:
+        previousMusic();// TODO add your handling code here:
     }//GEN-LAST:event_BackActionPerformed
 
     private void PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PauseActionPerformed
@@ -421,6 +467,7 @@ public void stateChanged(ChangeEvent e) {
                 long framePosition = (long) (duration.getValue() * audioLength / 100);
                 clip.setFramePosition((int) framePosition);
             }
+    
         }
     }
 
@@ -431,8 +478,8 @@ public void stateChanged(ChangeEvent e) {
     private javax.swing.JButton Loop;
     private javax.swing.JButton Next;
     private javax.swing.JButton Pause;
-    private javax.swing.JButton Play;
     private javax.swing.JButton Speaker;
+    private javax.swing.JButton Stop;
     private swing.Slider duration;
     private javax.swing.JLabel filename;
     private javax.swing.JLabel timeend;

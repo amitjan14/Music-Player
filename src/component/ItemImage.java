@@ -42,10 +42,20 @@ public class ItemImage extends javax.swing.JPanel {
         lbTitle = new javax.swing.JLabel();
         lbDescription = new javax.swing.JLabel();
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
+        });
+
         lbTitle.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Title");
+        lbTitle.setComponentPopupMenu(lbTitle.getComponentPopupMenu());
 
         lbDescription.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         lbDescription.setForeground(new java.awt.Color(255, 255, 255));
@@ -73,6 +83,14 @@ public class ItemImage extends javax.swing.JPanel {
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        lbDescription.setText("Now Playing"); // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseReleased
     
     @Override
     protected void paintComponent(Graphics grphcs){

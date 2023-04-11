@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import model.Model_Music;
 
 
@@ -14,7 +15,6 @@ public class ItemMusic extends javax.swing.JPanel {
     private final Model_Music data;
     Bottom bottom = new Bottom();
     boolean play;
-    String file;
     public void setPlay(boolean play){
     this.play = play;
     if(play){
@@ -33,7 +33,6 @@ public class ItemMusic extends javax.swing.JPanel {
         lbText.setForeground(new Color(51, 51, 51 ));
         lbTime.setFont(new java.awt.Font("sansserif",0, 14));
         lbTime.setForeground(new Color(51, 51, 51 ));
-        
     }
     }
     
@@ -54,6 +53,12 @@ public class ItemMusic extends javax.swing.JPanel {
         lbTime = new javax.swing.JLabel();
         lbText = new javax.swing.JLabel();
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+
         lbIcon.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lbIcon.setForeground(new java.awt.Color(51, 51, 51));
         lbIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -66,6 +71,11 @@ public class ItemMusic extends javax.swing.JPanel {
         lbText.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lbText.setForeground(new java.awt.Color(51, 51, 51));
         lbText.setText("Music Name");
+        lbText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbTextMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -87,6 +97,14 @@ public class ItemMusic extends javax.swing.JPanel {
             .addComponent(lbTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+            
+    }//GEN-LAST:event_formMouseClicked
+
+    private void lbTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbTextMouseClicked
+      // TODO add your handling code here:
+    }//GEN-LAST:event_lbTextMouseClicked
      
     @Override
     protected void paintComponent(Graphics grphcs){
